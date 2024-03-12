@@ -1,5 +1,6 @@
 package ru.nsu.ccfit.zuev.osu.scoring;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.EnumSet;
 
@@ -7,6 +8,7 @@ import ru.nsu.ccfit.zuev.osu.game.GameHelper;
 import ru.nsu.ccfit.zuev.osu.game.mods.GameMod;
 
 public class Statistic implements Serializable {
+    @Serial
     private static final long serialVersionUID = 8339570462000129479L;
 
     int notes = 0;
@@ -122,7 +124,7 @@ public class Statistic implements Serializable {
             currentCombo++;
             return;
         }
-        if (score == 0 && k == true) {
+        if (score == 0 && k) {
             changeHp(-(5 + GameHelper.getDrain()) / 100f);
             if (currentCombo > maxCombo) {
                 maxCombo = currentCombo;
@@ -135,7 +137,7 @@ public class Statistic implements Serializable {
         possibleScore += 300;
 
         switch (score) {
-            case 300:
+            case 300 -> {
                 changeHp(k ? 0.10f : 0.05f);
                 if (g) {
                     hit300k++;
@@ -144,33 +146,32 @@ public class Statistic implements Serializable {
                 addScore(300);
                 realScore += 300;
                 currentCombo++;
-                break;
-            case 100:
+            }
+            case 100 -> {
                 changeHp(k ? 0.15f : 0.05f);
                 if (k) {
                     hit100k++;
                 }
-
                 hit100++;
                 addScore(100);
                 realScore += 100;
                 currentCombo++;
-                break;
-            case 50:
+            }
+            case 50 -> {
                 changeHp(0.05f);
                 hit50++;
                 addScore(50);
                 realScore += 50;
                 currentCombo++;
-                break;
-            default:
+            }
+            default -> {
                 changeHp(-(5 + GameHelper.getDrain()) / 100f);
                 misses++;
                 if (currentCombo > maxCombo) {
                     maxCombo = currentCombo;
                 }
                 currentCombo = 0;
-                break;
+            }
         }
     }
 
@@ -187,14 +188,10 @@ public class Statistic implements Serializable {
 
     public String getMark() {
         boolean isH = false;
-        forcycle:
         for (final GameMod m : mod) {
-            switch (m) {
-                case MOD_HIDDEN:
-                    isH = true;
-                    break forcycle;
-                default:
-                    break;
+            if (m == GameMod.MOD_HIDDEN) {
+                isH = true;
+                break;
             }
         }
 

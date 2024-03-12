@@ -1,8 +1,10 @@
 package org.anddev.andengine.ui.activity;
 
+import android.app.Activity;
+import android.content.Intent;
+
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
-import org.anddev.andengine.engine.handler.timer.ITimerCallback;
 import org.anddev.andengine.engine.handler.timer.TimerHandler;
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
@@ -17,9 +19,6 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextur
 import org.anddev.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
 import org.anddev.andengine.opengl.texture.bitmap.BitmapTexture.BitmapTextureFormat;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
-
-import android.app.Activity;
-import android.content.Intent;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -98,13 +97,10 @@ public abstract class BaseSplashActivity extends BaseGameActivity {
 
 		final SplashScene splashScene = new SplashScene(this.mCamera, this.mLoadingScreenTextureRegion, splashDuration, this.getSplashScaleFrom(), this.getSplashScaleTo());
 
-		splashScene.registerUpdateHandler(new TimerHandler(splashDuration, new ITimerCallback() {
-			@Override
-			public void onTimePassed(final TimerHandler pTimerHandler) {
-				BaseSplashActivity.this.startActivity(new Intent(BaseSplashActivity.this, BaseSplashActivity.this.getFollowUpActivity()));
-				BaseSplashActivity.this.finish();
-			}
-		}));
+		splashScene.registerUpdateHandler(new TimerHandler(splashDuration, pTimerHandler -> {
+            BaseSplashActivity.this.startActivity(new Intent(BaseSplashActivity.this, BaseSplashActivity.this.getFollowUpActivity()));
+            BaseSplashActivity.this.finish();
+        }));
 
 		return splashScene;
 	}

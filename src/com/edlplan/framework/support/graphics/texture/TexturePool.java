@@ -24,7 +24,6 @@ import org.anddev.andengine.opengl.util.GLHelper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -196,7 +195,7 @@ public class TexturePool {
             raw.pageIndex = currentPack;
             raw.pos = new Vec2Int(currentX, currentY);
             currentX += raw.size.x + marginX;
-            lineMaxY = Math.round(Math.max(lineMaxY, currentY + raw.size.y + marginY));
+            lineMaxY = Math.max(lineMaxY, currentY + raw.size.y + marginY);
         } else {
             toNewPack();
             tryAddToPack(raw);

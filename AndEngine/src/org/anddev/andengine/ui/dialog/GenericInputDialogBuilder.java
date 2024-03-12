@@ -1,16 +1,14 @@
 package org.anddev.andengine.ui.dialog;
 
-import org.anddev.andengine.util.Callback;
-import org.anddev.andengine.util.Debug;
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import org.anddev.andengine.util.Callback;
+import org.anddev.andengine.util.Debug;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -87,28 +85,22 @@ public abstract class GenericInputDialogBuilder<T> {
 
 		this.setView(ab, etInput);
 		ab.setOnCancelListener(this.mOnCancelListener)
-		.setPositiveButton(android.R.string.ok, new OnClickListener() {
-			@Override
-			public void onClick(final DialogInterface pDialog, final int pWhich) {
-				final T result;
-				try{
-					result = GenericInputDialogBuilder.this.generateResult(etInput.getText().toString());
-				} catch (final IllegalArgumentException e) {
-					Debug.e("Error in GenericInputDialogBuilder.generateResult()", e);
-					Toast.makeText(GenericInputDialogBuilder.this.mContext, GenericInputDialogBuilder.this.mErrorResID, Toast.LENGTH_SHORT).show();
-					return;
-				}
-				GenericInputDialogBuilder.this.mSuccessCallback.onCallback(result);
-				pDialog.dismiss();
-			}
-		})
-		.setNegativeButton(android.R.string.cancel, new OnClickListener() {
-			@Override
-			public void onClick(final DialogInterface pDialog, final int pWhich) {
-				GenericInputDialogBuilder.this.mOnCancelListener.onCancel(pDialog);
-				pDialog.dismiss();
-			}
-		});
+		.setPositiveButton(android.R.string.ok, (pDialog, pWhich) -> {
+            final T result;
+            try{
+                result = GenericInputDialogBuilder.this.generateResult(etInput.getText().toString());
+            } catch (final IllegalArgumentException e) {
+                Debug.e("Error in GenericInputDialogBuilder.generateResult()", e);
+                Toast.makeText(GenericInputDialogBuilder.this.mContext, GenericInputDialogBuilder.this.mErrorResID, Toast.LENGTH_SHORT).show();
+                return;
+            }
+            GenericInputDialogBuilder.this.mSuccessCallback.onCallback(result);
+            pDialog.dismiss();
+        })
+		.setNegativeButton(android.R.string.cancel, (pDialog, pWhich) -> {
+            GenericInputDialogBuilder.this.mOnCancelListener.onCancel(pDialog);
+            pDialog.dismiss();
+        });
 
 		return ab.create();
 	}

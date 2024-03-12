@@ -1,7 +1,6 @@
 package org.anddev.andengine.entity.scene.popup;
 
 import org.anddev.andengine.engine.camera.Camera;
-import org.anddev.andengine.engine.handler.timer.ITimerCallback;
 import org.anddev.andengine.engine.handler.timer.TimerHandler;
 import org.anddev.andengine.entity.scene.CameraScene;
 import org.anddev.andengine.entity.scene.Scene;
@@ -36,16 +35,13 @@ public class PopupScene extends CameraScene {
 
 		pParentScene.setChildScene(this, false, true, true);
 
-		this.registerUpdateHandler(new TimerHandler(pDurationSeconds, new ITimerCallback() {
-			@Override
-			public void onTimePassed(final TimerHandler pTimerHandler) {
-				PopupScene.this.unregisterUpdateHandler(pTimerHandler);
-				pParentScene.clearChildScene();
-				if(pRunnable != null) {
-					pRunnable.run();
-				}
-			}
-		}));
+		this.registerUpdateHandler(new TimerHandler(pDurationSeconds, pTimerHandler -> {
+            PopupScene.this.unregisterUpdateHandler(pTimerHandler);
+            pParentScene.clearChildScene();
+            if(pRunnable != null) {
+                pRunnable.run();
+            }
+        }));
 	}
 
 	// ===========================================================

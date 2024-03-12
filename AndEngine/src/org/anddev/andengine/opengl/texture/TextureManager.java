@@ -24,12 +24,12 @@ public class TextureManager {
 	// Fields
 	// ===========================================================
 
-	private final HashSet<ITexture> mTexturesManaged = new HashSet<ITexture>();
+	private final HashSet<ITexture> mTexturesManaged = new HashSet<>();
 
-	private final ArrayList<ITexture> mTexturesLoaded = new ArrayList<ITexture>();
+	private final ArrayList<ITexture> mTexturesLoaded = new ArrayList<>();
 
-	private final ArrayList<ITexture> mTexturesToBeLoaded = new ArrayList<ITexture>();
-	private final ArrayList<ITexture> mTexturesToBeUnloaded = new ArrayList<ITexture>();
+	private final ArrayList<ITexture> mTexturesToBeLoaded = new ArrayList<>();
+	private final ArrayList<ITexture> mTexturesToBeUnloaded = new ArrayList<>();
 
 	// ===========================================================
 	// Constructors
@@ -109,7 +109,10 @@ public class TextureManager {
 		this.mTexturesToBeLoaded.addAll(this.mTexturesLoaded); // TODO Check if addAll uses iterator internally!
 		this.mTexturesLoaded.clear();
 
-		this.mTexturesManaged.removeAll(this.mTexturesToBeUnloaded); // TODO Check if removeAll uses iterator internally!
+		for (ITexture texture : this.mTexturesToBeUnloaded) {
+			this.mTexturesManaged.remove(texture);
+		}
+
 		this.mTexturesToBeUnloaded.clear();
 	}
 

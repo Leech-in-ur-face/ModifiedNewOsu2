@@ -1,8 +1,10 @@
 package ru.nsu.ccfit.zuev.osu;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class TrackInfo implements Serializable {
+    @Serial
     private static final long serialVersionUID = 2049627581836712912L;
 
     private String filename;
@@ -226,8 +228,7 @@ public class TrackInfo implements Serializable {
         if (o == this)
             return true;
 
-        if (o instanceof TrackInfo) {
-            var track = (TrackInfo) o;
+        if (o instanceof TrackInfo track) {
 
             return md5 != null
                     && track.md5 != null

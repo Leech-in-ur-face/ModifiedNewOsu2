@@ -1,17 +1,15 @@
 package org.anddev.andengine.util;
 
-import java.util.GregorianCalendar;
-
-import org.anddev.andengine.util.constants.Constants;
-
 import android.R;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import org.anddev.andengine.util.constants.Constants;
+
+import java.util.GregorianCalendar;
 
 
 /**
@@ -68,24 +66,18 @@ public class BetaUtils implements Constants {
 			.setIcon(R.drawable.ic_dialog_alert)
 			.setMessage(pMessageResourceID);
 
-			alertDialogBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
-				@Override
-				public void onClick(final DialogInterface pDialog, final int pWhich) {
-					if(pOkIntent != null) {
-						pActivity.startActivity(pOkIntent);
-					}
-					pActivity.finish();
-				}
-			});
-			alertDialogBuilder.setNegativeButton(android.R.string.cancel, new OnClickListener() {
-				@Override
-				public void onClick(final DialogInterface pDialog, final int pWhich) {
-					if(pCancelIntent != null) {
-						pActivity.startActivity(pCancelIntent);
-					}
-					pActivity.finish();
-				}
-			})
+			alertDialogBuilder.setPositiveButton(android.R.string.ok, (pDialog, pWhich) -> {
+                if(pOkIntent != null) {
+                    pActivity.startActivity(pOkIntent);
+                }
+                pActivity.finish();
+            });
+			alertDialogBuilder.setNegativeButton(android.R.string.cancel, (pDialog, pWhich) -> {
+                if(pCancelIntent != null) {
+                    pActivity.startActivity(pCancelIntent);
+                }
+                pActivity.finish();
+            })
 			.create().show();
 			return true;
 		}else{

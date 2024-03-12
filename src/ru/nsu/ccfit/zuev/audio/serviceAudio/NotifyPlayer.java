@@ -26,10 +26,11 @@ import android.support.v4.media.session.MediaSessionCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.soratsuki.library.LibraryManager;
+
 import ru.nsu.ccfit.zuev.audio.Status;
 import ru.nsu.ccfit.zuev.osu.BeatmapInfo;
 import ru.nsu.ccfit.zuev.osu.GlobalManager;
-import ru.nsu.ccfit.zuev.osu.LibraryManager;
 import ru.nsu.ccfit.zuev.osu.MainActivity;
 import ru.nsu.ccfit.zuev.osuplus.R;
 
@@ -85,28 +86,28 @@ public class NotifyPlayer {
                     return;
 
                 switch (intent.getAction()) {
-                    case actionPlay:
+                    case actionPlay -> {
                         if (service.getStatus() == Status.PLAYING) service.pause();
                         else service.play();
-                        break;
-                    case actionPrev:
+                    }
+                    case actionPrev -> {
                         service.stop();
                         BeatmapInfo prevBeatmap = LibraryManager.INSTANCE.getPrevBeatmap();
                         service.preLoad(prevBeatmap.getMusic());
                         updateSong(prevBeatmap);
                         service.play();
-                        break;
-                    case actionNext:
+                    }
+                    case actionNext -> {
                         service.stop();
                         BeatmapInfo nextBeatmap = LibraryManager.INSTANCE.getNextBeatmap();
                         service.preLoad(nextBeatmap.getMusic());
                         updateSong(nextBeatmap);
                         service.play();
-                        break;
-                    case actionClose:
+                    }
+                    case actionClose -> {
                         service.stop();
                         GlobalManager.getInstance().getMainScene().exit();
-                        break;
+                    }
                 }
             }
         };
@@ -121,7 +122,9 @@ public class NotifyPlayer {
         int drawable = isPlaying ? R.drawable.v_pause : R.drawable.v_play;
 
         builder.mActions.set(1, new NotificationCompat.Action(drawable, actionPlay, play));
-        manager.notify(NOTIFICATION_ID, builder.build());
+        try {
+            manager.notify(NOTIFICATION_ID, builder.build());
+        } catch (SecurityException ignored) {}
     }
 
     public void updateSong(BeatmapInfo beatmap) {
@@ -153,7 +156,9 @@ public class NotifyPlayer {
         builder.setLargeIcon(bitmap != null ? bitmap : defaultIcon);
 
         notification = builder.build();
-        manager.notify(NOTIFICATION_ID, notification);
+        try {
+            manager.notify(NOTIFICATION_ID, notification);
+        } catch (SecurityException ignored) {}
     }
 
     public void show() {
@@ -162,7 +167,9 @@ public class NotifyPlayer {
         if (notification == null)
             create();
 
-        manager.notify(NOTIFICATION_ID, notification);
+        try {
+            manager.notify(NOTIFICATION_ID, notification);
+        } catch (SecurityException ignored) {}
         isShowing = true;
     }
 

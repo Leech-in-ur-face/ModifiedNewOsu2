@@ -1,13 +1,12 @@
 package org.anddev.andengine.input.touch.detector;
 
+import android.os.SystemClock;
+import android.view.MotionEvent;
+
 import org.anddev.andengine.engine.handler.IUpdateHandler;
-import org.anddev.andengine.engine.handler.timer.ITimerCallback;
 import org.anddev.andengine.engine.handler.timer.TimerHandler;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.input.touch.TouchEvent;
-
-import android.os.SystemClock;
-import android.view.MotionEvent;
 
 /**
  * Note: Needs to be registered as an {@link IUpdateHandler} to the {@link Engine} or {@link Scene} to work properly.
@@ -64,12 +63,7 @@ public class HoldDetector extends BaseDetector implements IUpdateHandler {
 		this.mTriggerHoldMaximumDistance = pTriggerHoldMaximumDistance;
 		this.mHoldDetectorListener = pClickDetectorListener;
 
-		this.mTimerHandler = new TimerHandler(pTimeBetweenUpdates, true, new ITimerCallback() {
-			@Override
-			public void onTimePassed(final TimerHandler pTimerHandler) {
-				HoldDetector.this.fireListener();
-			}
-		});
+		this.mTimerHandler = new TimerHandler(pTimeBetweenUpdates, true, pTimerHandler -> HoldDetector.this.fireListener());
 	}
 
 	// ===========================================================

@@ -11,7 +11,6 @@ import com.edlplan.edlosbsupport.parser.OsbFileParser;
 import com.edlplan.edlosbsupport.player.OsbPlayer;
 import com.edlplan.framework.math.Anchor;
 import com.edlplan.framework.math.Vec2;
-import com.edlplan.framework.support.ProxySprite;
 import com.edlplan.framework.support.SupportSprite;
 import com.edlplan.framework.support.batch.BatchEngine;
 import com.edlplan.framework.support.batch.object.TextureQuad;
@@ -57,8 +56,7 @@ public class StoryboardSprite extends SupportSprite {
         for (OsuStoryboardLayer layer : storyboard.layers) {
             if (layer != null) {
                 for (IStoryboardElement element : layer.elements) {
-                    if (element instanceof StoryboardAnimationSprite) {
-                        StoryboardAnimationSprite as = (StoryboardAnimationSprite) element;
+                    if (element instanceof StoryboardAnimationSprite as) {
                         for (int i = 0; i < as.frameCount; i++) {
                             if ((tmp = textures.get(tmps = as.buildPath(i))) == null) {
                                 textures.put(tmps, 1);

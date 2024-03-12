@@ -138,7 +138,7 @@ public class ColorPickerPreference
         int c = color;
         for (int i = 0; i < w; i++) {
             for (int j = i; j < h; j++) {
-                c = (i <= 1 || j <= 1 || i >= w - 2 || j >= h - 2) ? Color.GRAY : color;
+                c = i <= 1 || i >= w - 2 || j >= h - 2 ? Color.GRAY : color;
                 bm.setPixel(i, j, c);
                 if (i != j) {
                     bm.setPixel(j, i, c);
@@ -291,13 +291,12 @@ public class ColorPickerPreference
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        if (!(state instanceof SavedState)) {
+        if (!(state instanceof SavedState myState)) {
             // Didn't save state for us in onSaveInstanceState
             super.onRestoreInstanceState(state);
             return;
         }
 
-        SavedState myState = (SavedState) state;
         super.onRestoreInstanceState(myState.getSuperState());
         showDialog(myState.dialogBundle);
     }

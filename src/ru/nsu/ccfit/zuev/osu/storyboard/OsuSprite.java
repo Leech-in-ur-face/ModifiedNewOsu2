@@ -22,11 +22,9 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.BaseSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.opengl.texture.TextureOptions;
-import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BuildableBitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.source.FileBitmapTextureAtlasSource;
-import org.anddev.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
 import org.anddev.andengine.opengl.texture.atlas.buildable.builder.BlackPawnTextureBuilder;
 import org.anddev.andengine.opengl.texture.atlas.buildable.builder.ITextureBuilder;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
@@ -179,78 +177,78 @@ public class OsuSprite {
         float y = sprite.getY();
 
         switch (origin) {
-            case TopLeft:
+            case TopLeft -> {
                 // sprite.setAnchorCenter(0f, 1f);
                 sprite.setScaleCenter(0f, 0f);
                 sprite.setRotationCenter(0f, 0f);
                 sprite.setPosition(x, y);
                 anchorCenterX = 0f;
                 anchorCenterY = 0f;
-                break;
-            case TopCentre:
+            }
+            case TopCentre -> {
                 // sprite.setAnchorCenter(0.5f, 1f);
                 sprite.setScaleCenter(sprite.getWidth() / 2f, 0);
                 sprite.setRotationCenter(sprite.getWidth() / 2f, 0);
                 sprite.setPosition(x - sprite.getWidth() / 2f, y);
                 anchorCenterX = sprite.getWidth() / 2f;
                 anchorCenterY = 0f;
-                break;
-            case TopRight:
+            }
+            case TopRight -> {
                 // sprite.setAnchorCenter(1f, 1f);
                 sprite.setScaleCenter(sprite.getWidth(), 0);
                 sprite.setRotationCenter(sprite.getWidth(), 0);
                 sprite.setPosition(x - sprite.getWidth(), y);
                 anchorCenterX = sprite.getWidth();
                 anchorCenterY = 0f;
-                break;
-            case CentreLeft:
+            }
+            case CentreLeft -> {
                 // sprite.setAnchorCenter(0f, 0.5f);
                 sprite.setScaleCenter(0f, sprite.getHeight() / 2f);
                 sprite.setRotationCenter(0f, sprite.getHeight() / 2f);
                 sprite.setPosition(x, y - sprite.getHeight() / 2f);
                 anchorCenterX = 0f;
                 anchorCenterY = sprite.getHeight() / 2f;
-                break;
-            case Centre:
+            }
+            case Centre -> {
                 // sprite.setAnchorCenter(0.5f, 0.5f);
                 sprite.setScaleCenter(sprite.getWidth() / 2f, sprite.getHeight() / 2f);
                 sprite.setRotationCenter(sprite.getWidth() / 2f, sprite.getHeight() / 2f);
                 sprite.setPosition(x - sprite.getWidth() / 2f, y - sprite.getHeight() / 2f);
                 anchorCenterX = sprite.getWidth() / 2f;
                 anchorCenterY = sprite.getHeight() / 2f;
-                break;
-            case CentreRight:
+            }
+            case CentreRight -> {
                 // sprite.setAnchorCenter(1f, 0.5f);
                 sprite.setScaleCenter(sprite.getWidth(), sprite.getHeight() / 2f);
                 sprite.setRotationCenter(sprite.getWidth(), sprite.getHeight() / 2f);
                 sprite.setPosition(x - sprite.getWidth(), y - sprite.getHeight() / 2f);
                 anchorCenterX = sprite.getWidth();
                 anchorCenterY = sprite.getHeight() / 2f;
-                break;
-            case BottomLeft:
+            }
+            case BottomLeft -> {
                 // sprite.setAnchorCenter(0f, 0f);
                 sprite.setScaleCenter(0f, sprite.getHeight());
                 sprite.setRotationCenter(0f, sprite.getHeight());
                 sprite.setPosition(x, y - sprite.getHeight());
                 anchorCenterX = 0;
                 anchorCenterY = sprite.getHeight();
-                break;
-            case BottomCentre:
+            }
+            case BottomCentre -> {
                 // sprite.setAnchorCenter(0.5f, 0f);
                 sprite.setScaleCenter(sprite.getWidth() / 2f, sprite.getHeight());
                 sprite.setRotationCenter(sprite.getWidth() / 2f, sprite.getHeight());
                 sprite.setPosition(x - sprite.getWidth() / 2f, y - sprite.getHeight());
                 anchorCenterX = sprite.getWidth() / 2f;
                 anchorCenterY = sprite.getHeight();
-                break;
-            case BottomRight:
+            }
+            case BottomRight -> {
                 // sprite.setAnchorCenter(1f, 0f);
                 sprite.setScaleCenter(sprite.getWidth(), sprite.getHeight());
                 sprite.setRotationCenter(sprite.getWidth(), sprite.getHeight());
                 sprite.setPosition(x - sprite.getWidth(), y - sprite.getHeight());
                 anchorCenterX = sprite.getWidth();
                 anchorCenterY = sprite.getHeight();
-                break;
+            }
         }
         IEntityModifier[] entityModifiers = new IEntityModifier[eventList.size()];
         for (int i = 0; i < eventList.size(); i++) {
@@ -399,15 +397,9 @@ public class OsuSprite {
             case P://Parameter
                 iEntityModifier = new DelayModifier(0f);//fake modifier
                 switch (osuEvent.P) {
-                    case "H":
-                        sprite.setFlippedHorizontal(true);
-                        break;
-                    case "V":
-                        sprite.setFlippedVertical(true);
-                        break;
-                    case "A":
-                        sprite.setBlendFunction(GLES10.GL_SRC_ALPHA, GLES10.GL_ONE);
-                        break;
+                    case "H" -> sprite.setFlippedHorizontal(true);
+                    case "V" -> sprite.setFlippedVertical(true);
+                    case "A" -> sprite.setBlendFunction(GLES10.GL_SRC_ALPHA, GLES10.GL_ONE);
                 }
                 break;
             case L: {

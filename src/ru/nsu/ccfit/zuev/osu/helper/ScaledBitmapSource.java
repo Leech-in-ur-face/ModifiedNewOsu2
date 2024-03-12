@@ -4,15 +4,15 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 
+import androidx.annotation.NonNull;
+
 import org.anddev.andengine.opengl.texture.atlas.bitmap.source.IBitmapTextureAtlasSource;
 import org.anddev.andengine.opengl.texture.source.BaseTextureAtlasSource;
 import org.anddev.andengine.util.Debug;
-import org.anddev.andengine.util.StreamUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class ScaledBitmapSource extends BaseTextureAtlasSource implements
         IBitmapTextureAtlasSource {
@@ -40,36 +40,26 @@ public class ScaledBitmapSource extends BaseTextureAtlasSource implements
         decodeOptions.inSampleSize = ru.nsu.ccfit.zuev.osu.Config
                 .getBackgroundQuality();
 
-        InputStream in = null;
-        try {
-            in = new FileInputStream(pFile);
+        try (FileInputStream in = new FileInputStream(pFile)) {
             BitmapFactory.decodeStream(in, null, decodeOptions);
             this.mWidth = decodeOptions.outWidth;
             this.mHeight = decodeOptions.outHeight;
-
         } catch (final IOException e) {
             Debug.e("Failed loading Bitmap in FileBitmapTextureAtlasSource. File: "
                     + pFile, e);
             this.mWidth = 0;
             this.mHeight = 0;
-        } finally {
-            StreamUtils.close(in);
         }
     }
 
-    ScaledBitmapSource(final File pFile, final int pTexturePositionX,
-                       final int pTexturePositionY, final int pWidth, final int pHeight) {
-        super(pTexturePositionX, pTexturePositionY);
-        this.mFile = pFile;
-        this.mWidth = pWidth;
-        this.mHeight = pHeight;
-    }
-
-
+    @NonNull
     @Override
     public ScaledBitmapSource clone() {
-        return new ScaledBitmapSource(this.mFile, this.mTexturePositionX,
-                this.mTexturePositionY, this.mWidth, this.mHeight);
+        try {
+            return (ScaledBitmapSource) super.clone();
+        } catch (final CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 
     // ===========================================================
@@ -107,21 +97,18 @@ public class ScaledBitmapSource extends BaseTextureAtlasSource implements
         decodeOptions.inSampleSize = ru.nsu.ccfit.zuev.osu.Config
                 .getBackgroundQuality();
 
-        InputStream in = null;
-        try {
-            in = new FileInputStream(this.mFile);
+        try (FileInputStream in = new FileInputStream(this.mFile)) {
             return BitmapFactory.decodeStream(in, null, decodeOptions);
         } catch (final IOException e) {
             Debug.e("Failed loading Bitmap in "
                             + this.getClass().getSimpleName() + ". File: " + this.mFile,
                     e);
             return null;
-        } finally {
-            StreamUtils.close(in);
         }
     }
 
 
+    @NonNull
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "(" + this.mFile + ")";

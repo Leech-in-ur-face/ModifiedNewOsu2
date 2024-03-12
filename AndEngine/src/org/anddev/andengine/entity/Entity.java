@@ -36,13 +36,10 @@ public class Entity implements IEntity {
 	private static final float[] VERTICES_SCENE_TO_LOCAL_TMP = new float[2];
 	private static final float[] VERTICES_LOCAL_TO_SCENE_TMP = new float[2];
 
-	private static final ParameterCallable<IEntity> PARAMETERCALLABLE_DETACHCHILD = new ParameterCallable<IEntity>() {
-		@Override
-		public void call(final IEntity pEntity) {
-			if (pEntity != null) {
-				pEntity.setParent(null);
-				pEntity.onDetached();
-			}
+	private static final ParameterCallable<IEntity> PARAMETERCALLABLE_DETACHCHILD = pEntity -> {
+		if (pEntity != null) {
+			pEntity.setParent(null);
+			pEntity.onDetached();
 		}
 	};
 
@@ -526,7 +523,7 @@ public class Entity implements IEntity {
 
 	@Override
 	public ArrayList<IEntity> query(final IEntityMatcher pEntityMatcher) {
-		return this.query(pEntityMatcher, new ArrayList<IEntity>());
+		return this.query(pEntityMatcher, new ArrayList<>());
 	}
 
 	@Override
@@ -546,7 +543,7 @@ public class Entity implements IEntity {
 
 	@Override
 	public <S extends IEntity> ArrayList<S> queryForSubclass(final IEntityMatcher pEntityMatcher) throws ClassCastException {
-		return this.queryForSubclass(pEntityMatcher, new ArrayList<S>());
+		return this.queryForSubclass(pEntityMatcher, new ArrayList<>());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -979,7 +976,7 @@ public class Entity implements IEntity {
 	}
 
 	private void allocateChildren() {
-		this.mChildren = new SmartList<IEntity>(Entity.CHILDREN_CAPACITY_DEFAULT);
+		this.mChildren = new SmartList<>(Entity.CHILDREN_CAPACITY_DEFAULT);
 	}
 
 	private void allocateUpdateHandlers() {

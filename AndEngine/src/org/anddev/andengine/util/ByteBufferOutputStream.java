@@ -1,10 +1,7 @@
 package org.anddev.andengine.util;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-
-import org.anddev.andengine.util.Debug;
 
 /**
  * (c) Zynga 2011
@@ -55,11 +52,6 @@ public class ByteBufferOutputStream extends OutputStream {
 		this.ensureCapacity(this.mCount + pLength);
 		System.arraycopy(pData, pOffset, this.mData, this.mCount, pLength);
 		this.mCount += pLength;
-	}
-
-	@Override
-	public void close() throws IOException {
-
 	}
 
 	// ===========================================================

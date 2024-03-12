@@ -1,11 +1,19 @@
 package org.anddev.andengine.engine;
 
-import javax.microedition.khronos.opengles.GL10;
-import javax.microedition.khronos.opengles.GL11;
+import android.annotation.SuppressLint;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationProvider;
+import android.os.Bundle;
+import android.os.Vibrator;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 
-import org.anddev.andengine.audio.music.MusicFactory;
 import org.anddev.andengine.audio.music.MusicManager;
-import org.anddev.andengine.audio.sound.SoundFactory;
 import org.anddev.andengine.audio.sound.SoundManager;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.handler.IUpdateHandler;
@@ -25,34 +33,16 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextur
 import org.anddev.andengine.opengl.util.GLHelper;
 import org.anddev.andengine.sensor.SensorDelay;
 import org.anddev.andengine.sensor.accelerometer.AccelerometerData;
-import org.anddev.andengine.sensor.accelerometer.AccelerometerSensorOptions;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.sensor.location.ILocationListener;
 import org.anddev.andengine.sensor.location.LocationProviderStatus;
-import org.anddev.andengine.sensor.location.LocationSensorOptions;
 import org.anddev.andengine.sensor.orientation.IOrientationListener;
 import org.anddev.andengine.sensor.orientation.OrientationData;
-import org.anddev.andengine.sensor.orientation.OrientationSensorOptions;
 import org.anddev.andengine.util.Debug;
 import org.anddev.andengine.util.constants.TimeConstants;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.location.LocationProvider;
-import android.os.Bundle;
-import android.os.Vibrator;
-import android.view.Display;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.WindowManager;
+import javax.microedition.khronos.opengles.GL10;
+import javax.microedition.khronos.opengles.GL11;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -123,8 +113,6 @@ public class Engine implements SensorEventListener, OnTouchListener, ITouchEvent
 
 	public Engine(final EngineOptions pEngineOptions) {
 		BitmapTextureAtlasTextureRegionFactory.reset();
-		SoundFactory.reset();
-		MusicFactory.reset();
 		FontFactory.reset();
 
 		BufferObjectManager.setActiveInstance(this.mBufferObjectManager);

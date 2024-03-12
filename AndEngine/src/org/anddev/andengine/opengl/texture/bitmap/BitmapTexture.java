@@ -1,20 +1,19 @@
 package org.anddev.andengine.opengl.texture.bitmap;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.microedition.khronos.opengles.GL10;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.opengl.GLUtils;
 
 import org.anddev.andengine.opengl.texture.Texture;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.util.GLHelper;
 import org.anddev.andengine.util.MathUtils;
-import org.anddev.andengine.util.StreamUtils;
 
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.opengl.GLUtils;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.microedition.khronos.opengles.GL10;
 
 /**
  * (c) Zynga 2011
@@ -62,12 +61,7 @@ public abstract class BitmapTexture extends Texture {
 		final BitmapFactory.Options decodeOptions = new BitmapFactory.Options();
 		decodeOptions.inJustDecodeBounds = true;
 
-		final InputStream in = null;
-		try {
-			BitmapFactory.decodeStream(this.onGetInputStream(), null, decodeOptions);
-		} finally {
-			StreamUtils.close(in);
-		}
+		BitmapFactory.decodeStream(this.onGetInputStream(), null, decodeOptions);
 
 		this.mWidth = decodeOptions.outWidth;
 		this.mHeight = decodeOptions.outHeight;

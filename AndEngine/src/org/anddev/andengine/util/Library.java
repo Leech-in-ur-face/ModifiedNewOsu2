@@ -26,11 +26,11 @@ public class Library<T> {
 	// ===========================================================
 
 	public Library() {
-		this.mItems = new SparseArray<T>();
+		this.mItems = new SparseArray<>();
 	}
 
 	public Library(final int pInitialCapacity) {
-		this.mItems = new SparseArray<T>(pInitialCapacity);
+		this.mItems = new SparseArray<>(pInitialCapacity);
 	}
 
 	// ===========================================================
@@ -42,7 +42,7 @@ public class Library<T> {
 		if(existingItem == null) {
 			this.mItems.put(pID, pItem);
 		} else {
-			throw new IllegalArgumentException("ID: '" + pID + "' is already associated with item: '" + existingItem.toString() + "'.");
+			throw new IllegalArgumentException("ID: '" + pID + "' is already associated with item: '" + existingItem + "'.");
 		}
 	}
 

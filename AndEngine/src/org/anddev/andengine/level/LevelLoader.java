@@ -1,5 +1,14 @@
 package org.anddev.andengine.level;
 
+import android.content.Context;
+
+import org.anddev.andengine.level.util.constants.LevelConstants;
+import org.anddev.andengine.util.Debug;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,16 +17,6 @@ import java.util.HashMap;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import org.anddev.andengine.level.util.constants.LevelConstants;
-import org.anddev.andengine.util.Debug;
-import org.anddev.andengine.util.StreamUtils;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-
-import android.content.Context;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -38,7 +37,7 @@ public class LevelLoader implements LevelConstants {
 	private String mAssetBasePath;
 
 	private IEntityLoader mDefaultEntityLoader;
-	private final HashMap<String, IEntityLoader> mEntityLoaders = new HashMap<String, IEntityLoader>();
+	private final HashMap<String, IEntityLoader> mEntityLoaders = new HashMap<>();
 
 	// ===========================================================
 	// Constructors
@@ -96,10 +95,8 @@ public class LevelLoader implements LevelConstants {
 	}
 
 	public void registerEntityLoader(final String[] pEntityNames, final IEntityLoader pEntityLoader) {
-		final HashMap<String, IEntityLoader> entityLoaders = this.mEntityLoaders;
-
 		for(int i = pEntityNames.length - 1; i >= 0; i--) {
-			entityLoaders.put(pEntityNames[i], pEntityLoader);
+			this.mEntityLoaders.put(pEntityNames[i], pEntityLoader);
 		}
 	}
 
@@ -126,14 +123,11 @@ public class LevelLoader implements LevelConstants {
 			xr.parse(new InputSource(new BufferedInputStream(pInputStream)));
 
 			this.onAfterLoadLevel();
-		} catch (final SAXException se) {
+		} catch (final SAXException | ParserConfigurationException se) {
 			Debug.e(se);
 			/* Doesn't happen. */
-		} catch (final ParserConfigurationException pe) {
-			Debug.e(pe);
-			/* Doesn't happen. */
 		} finally {
-			StreamUtils.close(pInputStream);
+			pInputStream.close();
 		}
 	}
 

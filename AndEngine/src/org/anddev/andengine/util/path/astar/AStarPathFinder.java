@@ -23,8 +23,8 @@ public class AStarPathFinder<T> implements IPathFinder<T> {
 	// Fields
 	// ===========================================================
 
-	private final ArrayList<Node> mVisitedNodes = new ArrayList<Node>();
-	private final ArrayList<Node> mOpenNodes = new ArrayList<Node>();
+	private final ArrayList<Node> mVisitedNodes = new ArrayList<>();
+	private final ArrayList<Node> mOpenNodes = new ArrayList<>();
 
 	private final ITiledMap<T> mTiledMap;
 	private final int mMaxSearchDepth;
@@ -39,7 +39,7 @@ public class AStarPathFinder<T> implements IPathFinder<T> {
 	// ===========================================================
 
 	public AStarPathFinder(final ITiledMap<T> pTiledMap, final int pMaxSearchDepth, final boolean pAllowDiagonalMovement) {
-		this(pTiledMap, pMaxSearchDepth, pAllowDiagonalMovement, new EuclideanHeuristic<T>());
+		this(pTiledMap, pMaxSearchDepth, pAllowDiagonalMovement, new EuclideanHeuristic<>());
 	}
 
 	public AStarPathFinder(final ITiledMap<T> pTiledMap, final int pMaxSearchDepth, final boolean pAllowDiagonalMovement, final IAStarHeuristic<T> pAStarHeuristic) {
@@ -128,12 +128,8 @@ public class AStarPathFinder<T> implements IPathFinder<T> {
 						/* Re-evaluate if there is a better path. */
 						if(neighborCost < neighbor.mCost) {
 							// TODO Is this ever possible with AStar ??
-							if(openNodes.contains(neighbor)) {
-								openNodes.remove(neighbor);
-							}
-							if(visitedNodes.contains(neighbor)) {
-								visitedNodes.remove(neighbor);
-							}
+							openNodes.remove(neighbor);
+							visitedNodes.remove(neighbor);
 						}
 
 						if(!openNodes.contains(neighbor) && !(visitedNodes.contains(neighbor))) {
@@ -235,13 +231,7 @@ public class AStarPathFinder<T> implements IPathFinder<T> {
 			final float totalCost = this.mExpectedRestCost + this.mCost;
 			final float totalCostOther = pOther.mExpectedRestCost + pOther.mCost;
 
-			if (totalCost < totalCostOther) {
-				return -1;
-			} else if (totalCost > totalCostOther) {
-				return 1;
-			} else {
-				return 0;
-			}
+			return Float.compare(totalCost, totalCostOther);
 		}
 
 		// ===========================================================

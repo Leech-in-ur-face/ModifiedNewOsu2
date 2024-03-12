@@ -1,6 +1,7 @@
 package org.anddev.andengine.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * (c) 2010 Nicolas Gramlich 
@@ -35,17 +36,14 @@ public class ListUtils {
 	// ===========================================================
 
 	public static <T> ArrayList<? extends T> toList(final T pItem) {
-		final ArrayList<T> out = new ArrayList<T>();
+		final ArrayList<T> out = new ArrayList<>();
 		out.add(pItem);
 		return out;
 	}
 
 	public static <T> ArrayList<? extends T> toList(final T ... pItems) {
-		final ArrayList<T> out = new ArrayList<T>();
-		final int itemCount = pItems.length;
-		for(int i = 0; i < itemCount; i++) {
-			out.add(pItems[i]);
-		}
+		final ArrayList<T> out = new ArrayList<>();
+		Collections.addAll(out, pItems);
 		return out;
 	}
 
